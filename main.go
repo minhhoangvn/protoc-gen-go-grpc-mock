@@ -403,7 +403,8 @@ func main() {
 			if err := g.Generate(pkg, string(file.GoPackageName), string(file.GoImportPath)); err != nil {
 				return err
 			}
-			grpcMockFileName := strings.ReplaceAll(file.GeneratedFilenamePrefix+"_grpc_mock.pb.go", "-", "_")
+			grpcMockFileName := transformInput(file.GeneratedFilenamePrefix + "_grpc_mock.pb.go")
+
 			if _, err := plugin.NewGeneratedFile(
 				grpcMockFileName,
 				file.GoImportPath,
@@ -413,4 +414,21 @@ func main() {
 		}
 		return nil
 	})
+}
+
+func transformInput(input string) string {
+	// Split the input string by "/"
+	parts := strings.Split(input, "/")
+
+	// Extract the last part (service name) and convert it to the desired format
+	serviceName := parts[len(parts)-1]
+	serviceName = strings.ReplaceAll(serviceName, "-", "_") + "_mock_grpc.pb.go"
+
+	// Replace the last part in the parts slice with the transformed service name
+	parts[len(parts)-1] = serviceName
+
+	// Join the parts back together to form the output string
+	output := strings.Join(parts, "/")
+
+	return output
 }
