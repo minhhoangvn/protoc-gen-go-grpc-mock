@@ -1,4 +1,4 @@
-module github.com/sorcererxw/protoc-gen-go-grpc-mock
+module github.com/minhhoangvn/protoc-gen-go-grpc-mock
 
 go 1.20
 

@@ -3,6 +3,7 @@ package main
 import (
 	_ "embed"
 	"fmt"
+	"strings"
 
 	"go.uber.org/mock/mockgen/model"
 	"google.golang.org/protobuf/compiler/protogen"
@@ -402,8 +403,9 @@ func main() {
 			if err := g.Generate(pkg, string(file.GoPackageName), string(file.GoImportPath)); err != nil {
 				return err
 			}
+			grpcMockFileName := strings.ReplaceAll(file.GeneratedFilenamePrefix+"_grpc_mock.pb.go", "-", "_")
 			if _, err := plugin.NewGeneratedFile(
-				file.GeneratedFilenamePrefix+"_grpc_mock.pb.go",
+				grpcMockFileName,
 				file.GoImportPath,
 			).Write(g.Output()); err != nil {
 				return err
