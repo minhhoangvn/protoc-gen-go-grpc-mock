@@ -386,6 +386,8 @@ func baseServerStreamMethods() []*model.Method {
 	}
 }
 
+var version *string
+
 func main() {
 
 	// If ParamFunc is non-nil, it will be called with each unknown
@@ -412,11 +414,8 @@ func main() {
 	//     if *value { ... }
 	//   })
 
-	var (
-		flags   flag.FlagSet
-		version = flags.String("version", "", "go grpc version")
-	)
-
+	var flags flag.FlagSet
+	version = flags.String("version", "v1.2.15", "go grpc version")
 	protogen.Options{
 		ParamFunc: flags.Set,
 	}.Run(func(plugin *protogen.Plugin) error {
