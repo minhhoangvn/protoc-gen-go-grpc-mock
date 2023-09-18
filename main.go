@@ -387,20 +387,41 @@ func baseServerStreamMethods() []*model.Method {
 }
 
 func main() {
+
+	// If ParamFunc is non-nil, it will be called with each unknown
+	// generator parameter.
+	//
+	// Plugins for protoc can accept parameters from the command line,
+	// passed in the --<lang>_out protoc, separated from the output
+	// directory with a colon; e.g.,
+	//
+	//   --go_out=<param1>=<value1>,<param2>=<value2>:<output_directory>
+	//
+	// Parameters passed in this fashion as a comma-separated list of
+	// key=value pairs will be passed to the ParamFunc.
+	//
+	// The (flag.FlagSet).Set method matches this function signature,
+	// so parameters can be converted into flags as in the following:
+	//
+	//   var flags flag.FlagSet
+	//   value := flags.Bool("param", false, "")
+	//   opts := &protogen.Options{
+	//     ParamFunc: flags.Set,
+	//   }
+	//   protogen.Run(opts, func(p *protogen.Plugin) error {
+	//     if *value { ... }
+	//   })
+
 	var (
-		flags        flag.FlagSet
-		output       = flags.String("out", "", "go grpc mock output folder")
-		outputFolder = flags.String("outfolder", "", "go grpc mock output folder")
-		moduleName   = flags.String("modulename", "", "protoc module")
+		flags flag.FlagSet
+		_     = flags.String("outfolder", "", "go grpc mock output folder")
 	)
 
 	protogen.Options{
 		ParamFunc: flags.Set,
 	}.Run(func(plugin *protogen.Plugin) error {
 		plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
-		fmt.Println("out option: " + *output)
-		fmt.Println("outfolder option: " + *outputFolder)
-		fmt.Println("modulename option: " + *moduleName)
+		// fmt.Println("outfolder option: " + *outputFolder)
 
 		for path, file := range plugin.FilesByPath {
 			if !file.Generate {
