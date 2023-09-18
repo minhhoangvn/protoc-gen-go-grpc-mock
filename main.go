@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "embed"
+	"flag"
 	"fmt"
 	"strings"
 
@@ -386,8 +387,22 @@ func baseServerStreamMethods() []*model.Method {
 }
 
 func main() {
-	protogen.Options{}.Run(func(plugin *protogen.Plugin) error {
+	var (
+		flags  flag.FlagSet
+		out    = flags.String("out", "", "go grpc mock output folder")
+		module = flags.String("module", "", "protoc module")
+	)
+
+	protogen.Options{
+		ParamFunc: flags.Set,
+	}.Run(func(plugin *protogen.Plugin) error {
 		plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
+		fmt.Println("out option: " + *out)
+		fmt.Println("module option: " + *module)
+		plugin.Request.GetParameter()
+		for _, param := range strings.Split(plugin.Request.GetParameter(), ",") {
+			fmt.Println("plugin options: " + param)
+		}
 		for path, file := range plugin.FilesByPath {
 			if !file.Generate {
 				continue
@@ -422,7 +437,7 @@ func transformInput(input string) string {
 
 	// Extract the last part (service name) and convert it to the desired format
 	serviceName := parts[len(parts)-1]
-	serviceName = strings.ReplaceAll(serviceName, "-", "_") + "go_grpc_mock.pb.go"
+	serviceName = strings.ReplaceAll(serviceName, "-", "_") + "_go_grpc_mock.pb.go"
 
 	// Replace the last part in the parts slice with the transformed service name
 	parts[len(parts)-1] = serviceName
