@@ -401,9 +401,7 @@ func main() {
 		// fmt.Println("out option: " + *output)
 		// fmt.Println("outfolder option: " + *outputFolder)
 		// fmt.Println("modulename option: " + *moduleName)
-		for _, param := range strings.Split(plugin.Request.GetParameter(), ",") {
-			fmt.Println("plugin options: " + param)
-		}
+
 		for path, file := range plugin.FilesByPath {
 			if !file.Generate {
 				continue
