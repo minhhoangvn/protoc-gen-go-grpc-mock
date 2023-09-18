@@ -388,17 +388,17 @@ func baseServerStreamMethods() []*model.Method {
 
 func main() {
 	var (
-		flags  flag.FlagSet
-		out    = flags.String("out", "", "go grpc mock output folder")
-		module = flags.String("module", "", "protoc module")
+		flags        flag.FlagSet
+		outputFolder = flags.String("out_folder", "", "go grpc mock output folder")
+		moduleName   = flags.String("module_name", "", "protoc module")
 	)
 
 	protogen.Options{
 		ParamFunc: flags.Set,
 	}.Run(func(plugin *protogen.Plugin) error {
 		plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
-		fmt.Println("out option: " + *out)
-		fmt.Println("module option: " + *module)
+		fmt.Println("out option: " + *outputFolder)
+		fmt.Println("module option: " + *moduleName)
 		plugin.Request.GetParameter()
 		for _, param := range strings.Split(plugin.Request.GetParameter(), ",") {
 			fmt.Println("plugin options: " + param)
