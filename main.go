@@ -401,7 +401,6 @@ func main() {
 		// fmt.Println("out option: " + *output)
 		// fmt.Println("outfolder option: " + *outputFolder)
 		// fmt.Println("modulename option: " + *moduleName)
-		plugin.Request.GetParameter()
 		for _, param := range strings.Split(plugin.Request.GetParameter(), ",") {
 			fmt.Println("plugin options: " + param)
 		}
