@@ -415,6 +415,7 @@ func main() {
 	var (
 		flags flag.FlagSet
 		_     = flags.String("outfolder", "", "go grpc mock output folder")
+		_     = flags.String("module", "", "go grpc mock module name")
 	)
 
 	protogen.Options{
