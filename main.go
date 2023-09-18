@@ -388,19 +388,19 @@ func baseServerStreamMethods() []*model.Method {
 
 func main() {
 	var (
-		flags flag.FlagSet
-		// output       = flags.String("out", "", "go grpc mock output folder")
-		// outputFolder = flags.String("outfolder", "", "go grpc mock output folder")
-		// moduleName   = flags.String("modulename", "", "protoc module")
+		flags        flag.FlagSet
+		output       = flags.String("out", "", "go grpc mock output folder")
+		outputFolder = flags.String("outfolder", "", "go grpc mock output folder")
+		moduleName   = flags.String("modulename", "", "protoc module")
 	)
 
 	protogen.Options{
 		ParamFunc: flags.Set,
 	}.Run(func(plugin *protogen.Plugin) error {
 		plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
-		// fmt.Println("out option: " + *output)
-		// fmt.Println("outfolder option: " + *outputFolder)
-		// fmt.Println("modulename option: " + *moduleName)
+		fmt.Println("out option: " + *output)
+		fmt.Println("outfolder option: " + *outputFolder)
+		fmt.Println("modulename option: " + *moduleName)
 
 		for path, file := range plugin.FilesByPath {
 			if !file.Generate {
