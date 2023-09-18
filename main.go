@@ -2,9 +2,9 @@ package main
 
 import (
 	_ "embed"
-	"errors"
 	"flag"
 	"fmt"
+	"os"
 	"strings"
 
 	"go.uber.org/mock/mockgen/model"
@@ -421,8 +421,13 @@ func main() {
 		ParamFunc: flags.Set,
 	}.Run(func(plugin *protogen.Plugin) error {
 		plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
-		log := errors.New(plugin.Request.GetParameter())
-		fmt.Println(log)
+		params := strings.Split(plugin.Request.GetParameter(), ",")
+		for _, param := range params {
+			if strings.Contains(param, "=") {
+				ret := strings.Split(param, "=")
+				fmt.Fprintln(os.Stderr, "key: ["+ret[0]+"] value ["+ret[1]+"]")
+			}
+		}
 		for path, file := range plugin.FilesByPath {
 			// fmt.Println("version: " + *version)
 			if !file.Generate {
