@@ -2,7 +2,6 @@ package main
 
 import (
 	_ "embed"
-	"flag"
 	"fmt"
 	"strings"
 
@@ -412,14 +411,14 @@ func main() {
 	//     if *value { ... }
 	//   })
 
-	var (
-		flags flag.FlagSet
-		_     = flags.String("outfolder", "", "go grpc mock output folder")
-		_     = flags.String("module", "", "go grpc mock module name")
-	)
+	// var (
+	// 	flags flag.FlagSet
+	// 	_     = flags.String("outfolder", "", "go grpc mock output folder")
+	// 	_     = flags.String("module", "", "go grpc mock module name")
+	// )
 
 	protogen.Options{
-		ParamFunc: flags.Set,
+		// ParamFunc: flags.Set,
 	}.Run(func(plugin *protogen.Plugin) error {
 		plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
 		// fmt.Println("outfolder option: " + *outputFolder)
@@ -458,7 +457,8 @@ func transformInput(input string) string {
 
 	// Extract the last part (service name) and convert it to the desired format
 	serviceName := parts[len(parts)-1]
-	serviceName = strings.ReplaceAll(serviceName, "-", "_") + "_go_grpc_mock.pb.go"
+	// serviceName = strings.ReplaceAll(serviceName, "-", "_") + "_go_grpc_mock.pb.go"
+	serviceName = serviceName + "-go-grpc-mock.pb.go"
 
 	// Replace the last part in the parts slice with the transformed service name
 	parts[len(parts)-1] = serviceName
