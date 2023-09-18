@@ -422,7 +422,7 @@ func main() {
 		plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
 
 		for path, file := range plugin.FilesByPath {
-			fmt.Println("version: " + *version)
+			// fmt.Println("version: " + *version)
 			if !file.Generate {
 				continue
 			}
