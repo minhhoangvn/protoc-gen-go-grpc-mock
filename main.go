@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "embed"
+	"flag"
 	"fmt"
 	"strings"
 
@@ -411,19 +412,18 @@ func main() {
 	//     if *value { ... }
 	//   })
 
-	// var (
-	// 	flags flag.FlagSet
-	// 	_     = flags.String("outfolder", "", "go grpc mock output folder")
-	// 	_     = flags.String("module", "", "go grpc mock module name")
-	// )
+	var (
+		flags   flag.FlagSet
+		version = flags.String("version", "", "go grpc version")
+	)
 
 	protogen.Options{
-		// ParamFunc: flags.Set,
+		ParamFunc: flags.Set,
 	}.Run(func(plugin *protogen.Plugin) error {
 		plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
-		// fmt.Println("outfolder option: " + *outputFolder)
 
 		for path, file := range plugin.FilesByPath {
+			fmt.Println("version: " + *version)
 			if !file.Generate {
 				continue
 			}
