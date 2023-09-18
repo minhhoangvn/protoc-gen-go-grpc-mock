@@ -389,8 +389,8 @@ func baseServerStreamMethods() []*model.Method {
 func main() {
 	var (
 		flags        flag.FlagSet
-		outputFolder = flags.String("out_folder", "", "go grpc mock output folder")
-		moduleName   = flags.String("module_name", "", "protoc module")
+		outputFolder = flags.String("outfolder", "", "go grpc mock output folder")
+		moduleName   = flags.String("modulename", "", "protoc module")
 	)
 
 	protogen.Options{
