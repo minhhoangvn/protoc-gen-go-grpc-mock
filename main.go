@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "embed"
+	"errors"
 	"flag"
 	"fmt"
 	"strings"
@@ -420,8 +421,8 @@ func main() {
 		ParamFunc: flags.Set,
 	}.Run(func(plugin *protogen.Plugin) error {
 		plugin.SupportedFeatures = uint64(pluginpb.CodeGeneratorResponse_FEATURE_PROTO3_OPTIONAL)
-		params := strings.Split(plugin.Request.GetParameter(), ",")
-		fmt.Println(params)
+		log := errors.New(plugin.Request.GetParameter())
+		fmt.Println(log)
 		for path, file := range plugin.FilesByPath {
 			// fmt.Println("version: " + *version)
 			if !file.Generate {
