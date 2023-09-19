@@ -390,7 +390,7 @@ func baseServerStreamMethods() []*model.Method {
 func main() {
 	var (
 		flags flag.FlagSet
-		_     = flags.String("version", "v1.2.15", "go mock grpc version plugin version")
+		_     = flags.String("version", "v1.2.20", "go mock grpc version plugin version")
 	)
 
 	protogen.Options{
@@ -439,7 +439,7 @@ func transformInput(input string) string {
 	// Extract the last part (service name) and convert it to the desired format
 	serviceName := parts[len(parts)-1]
 	// serviceName = strings.ReplaceAll(serviceName, "-", "_") + "_go_grpc_mock.pb.go"
-	serviceName = serviceName + "-go-grpc-mock.pb.go"
+	serviceName = serviceName + ".mock.pb.go"
 
 	// Replace the last part in the parts slice with the transformed service name
 	parts[len(parts)-1] = serviceName
